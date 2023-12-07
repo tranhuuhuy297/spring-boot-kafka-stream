@@ -34,6 +34,9 @@ public class KafkaStreamsConfig {
     @Value(value = "${state.dir}")
     private String stateDir;
 
+    @Value(value = "${num.standby.task}")
+    private Integer numStandByTask;
+
     @Bean(name = KafkaStreamsDefaultConfiguration.DEFAULT_STREAMS_CONFIG_BEAN_NAME)
     public KafkaStreamsConfiguration kStreamsConfigs() {
         Map<String, Object> props = new HashMap<>();
@@ -48,7 +51,7 @@ public class KafkaStreamsConfig {
         props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
         props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
         props.put(StreamsConfig.STATE_DIR_CONFIG, this.stateDir);
-        props.put(StreamsConfig.NUM_STANDBY_REPLICAS_CONFIG, 2);
+        props.put(StreamsConfig.NUM_STANDBY_REPLICAS_CONFIG, this.numStandByTask);
 
         return new KafkaStreamsConfiguration(props);
     }
