@@ -1,13 +1,12 @@
-package com.example.kafkastream;
+package com.example.kafkastream.topology;
 
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KTable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
-public class Topology {
+// @Component
+public class TestTopology {
 
     @Autowired
     public void run(StreamsBuilder streamsBuilder) {

@@ -1,29 +1,21 @@
-package com.example.kafkastream;
+package com.example.kafkastream.config;
 
 import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.common.config.SaslConfigs;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.StreamsConfig;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.kafka.annotation.EnableKafka;
-import org.springframework.kafka.annotation.EnableKafkaStreams;
 import org.springframework.kafka.annotation.KafkaStreamsDefaultConfiguration;
 import org.springframework.kafka.config.KafkaStreamsConfiguration;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
-@EnableKafka
-@EnableKafkaStreams
+// @Configuration
+// @EnableKafka
+// @EnableKafkaStreams
 public class KafkaStreamsConfig {
-
-    @Autowired
-    KafkaProperties kafkaProperties;
 
     @Value(value = "${application.id}")
     private String applicationId;
@@ -37,6 +29,12 @@ public class KafkaStreamsConfig {
     @Value(value = "${num.standby.task}")
     private Integer numStandByTask;
 
+    @Value(value = "${username}")
+    private String username;
+
+    @Value(value = "${password}")
+    private String password;
+
     @Bean(name = KafkaStreamsDefaultConfiguration.DEFAULT_STREAMS_CONFIG_BEAN_NAME)
     public KafkaStreamsConfiguration kStreamsConfigs() {
         Map<String, Object> props = new HashMap<>();
@@ -44,7 +42,8 @@ public class KafkaStreamsConfig {
         props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_SSL");
         props.put(SaslConfigs.SASL_MECHANISM, "PLAIN");
         props.put(SaslConfigs.SASL_JAAS_CONFIG,
-                "org.apache.kafka.common.security.plain.PlainLoginModule required username='WKIRHWP726TH57YV' password='CFcwCAUJGQUHxDvLchslNS+ORsELgtaGvrKoPp7ttnP4BrUcoIJML+V8KNBQjdEM';");
+                "org.apache.kafka.common.security.plain.PlainLoginModule required username='" + username
+                        + "' password='" + password + "';");
 
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, this.applicationId);
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, this.bootstrapServers);
